@@ -5,6 +5,10 @@ const app = express()
 
 const router = require('./router.js')
 
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+
 // 日志
 app.use((req, res, next) => {
     console.log('%s %s %s', req.method, req.url, req.path);
