@@ -4,9 +4,12 @@ exports.search = (req, res, next) => {
     page = Math.abs(page)
     pageSize = Math.abs(pageSize)
     if (pageSize > 30) pageSize = 29
-    req.search = {
-        start: pageSize * (page - 1),
-        length: pageSize
-    }
+    req.arg.start = pageSize * (page - 1)
+    req.arg.length = pageSize
+    next()
+}
+exports.init = (req, res, next) => {
+    req.arg = {}
+    req.arg.select = req.query.select || '*'
     next()
 }
