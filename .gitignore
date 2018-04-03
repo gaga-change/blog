@@ -5,3 +5,5 @@ npm-debug.log
 yarn-error.log
 .idea
 *.iml
+test.js
+package-lock.json
