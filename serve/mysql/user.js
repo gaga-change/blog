@@ -9,8 +9,9 @@
 const query = require('./pool')
 
 
-exports.get = () => {
-    return query ('SELECT * FROM user')
+exports.search = (params) => {
+    console.log(params)
+    return query ('SELECT * FROM user LIMIT ?, ?', [params.start, params.length])
 }
 
 exports.add = (user) => {

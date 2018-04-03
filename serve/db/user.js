@@ -5,7 +5,9 @@ exports.test = (req, res) => {
 }
 
 exports.search = (req, res, next) => {
-    user.get().then(rows => {
-        res.send(rows)
+    user.search({
+        ...req.search
+    }).then(rows => {
+        res.send({success: true, data: rows, query: req.query})
     })
 }
