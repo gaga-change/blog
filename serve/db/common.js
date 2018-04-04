@@ -14,6 +14,7 @@ exports.init = (req, res, next) => {
     req.arg.select = req.query.select || ''
     // 排序
     req.arg.order = req.query.order || ''
-    
+    // 筛选
+    req.arg.where = req.query.where || ''
     next()
 }

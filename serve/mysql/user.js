@@ -11,7 +11,7 @@ const mysql = require('mysql')
 const tools = require('./tools')
 
 exports.search = (params) => {
-    let sql = `SELECT ${tools.select(params.select)} FROM user ${tools.order(params.order)} LIMIT ?, ?`
+    let sql = `SELECT ${tools.select(params.select)} FROM user ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
     console.log(sql)
     return query(sql, [params.start, params.length])
 }

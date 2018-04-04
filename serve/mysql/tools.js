@@ -31,3 +31,20 @@ exports.select = (select) => {
         return '*'
     }
 }
+exports.where = (where) => {
+    let sql = ''
+    if (where) {
+        let ret = []
+        where = where.split(',')
+        where.forEach(item => {
+            item = item.split('|')
+            if (item.length == 2 && item[0] && item[1]) {
+                ret.push(mysql.escapeId(item[0]) + '=' + mysql.escape(item[1]))
+            }
+        })
+        if (ret.length) {
+            sql = 'WHERE ' + ret.join(' AND ')
+        }
+    }
+    return sql
+}
