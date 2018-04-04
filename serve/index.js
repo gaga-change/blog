@@ -19,14 +19,13 @@ const options = {
     password: '123456',
     database: 'blog'
 }
-const cookieSet = {
-    secure: false,
-    maxAge: 24 * 60 * 60 * 1000
-}
 app.use(session({
     secret: '123456',
     name: 'sessionId', // cookie中的键名，用于存储sessionId
-    cookie: cookieSet, // cookie保存的时间
+    cookie: {
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000
+    }, // cookie保存的时间
     store: new SessionStore(options),
     resave: false,
     saveUninitialized: false

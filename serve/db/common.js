@@ -10,6 +10,10 @@ exports.search = (req, res, next) => {
 }
 exports.init = (req, res, next) => {
     req.arg = {}
-    req.arg.select = req.query.select || '*'
+    // 选择项
+    req.arg.select = req.query.select || ''
+    // 排序
+    req.arg.order = req.query.order || ''
+    
     next()
 }

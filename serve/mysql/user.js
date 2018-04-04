@@ -7,10 +7,13 @@
 */
 
 const query = require('./pool')
-
+const mysql = require('mysql')
+const tools = require('./tools')
 
 exports.search = (params) => {
-    return query (`SELECT ${params.select} FROM user LIMIT ?, ?`, [params.start, params.length])
+    let sql = `SELECT ${tools.select(params.select)} FROM user ${tools.order(params.order)} LIMIT ?, ?`
+    console.log(sql)
+    return query(sql, [params.start, params.length])
 }
 
 exports.add = (user) => {
