@@ -6,7 +6,7 @@ const user = require('./db/user.js')
 const common = require('./db/common')
 
 router.get('*', common.init)
-router.get('/a', user.test) // 测试接口
 router.get('/user',common.search, user.search) // 搜索
+router.post('/user/register', user.register) // 注册
 
 module.exports = router

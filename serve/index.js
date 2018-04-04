@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 // 异常处理
 app.use((err, req, res, next) => {
     res.status(err.status || 500)
-    res.send({ err })
+    res.send({ err: err.message, error: err})
 })
 
 const port = 8081

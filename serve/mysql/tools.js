@@ -31,12 +31,12 @@ exports.select = (select) => {
         return '*'
     }
 }
-exports.where = (where) => {
+exports.where = (wh) => {
     let sql = ''
-    if (where) {
+    if (wh) {
         let ret = []
-        where = where.split(',')
-        where.forEach(item => {
+        wh = wh.split(',')
+        wh.forEach(item => {
             item = item.split('|')
             if (item.length == 2 && item[0] && item[1]) {
                 ret.push(mysql.escapeId(item[0]) + '=' + mysql.escape(item[1]))

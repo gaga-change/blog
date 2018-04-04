@@ -10,9 +10,12 @@ const query = require('./pool')
 const mysql = require('mysql')
 const tools = require('./tools')
 
+/**
+ * 搜索用户
+ * @param {Object} params
+ */
 exports.search = (params) => {
     let sql = `SELECT ${tools.select(params.select)} FROM user ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
-    console.log(sql)
     return query(sql, [params.start, params.length])
 }
 
