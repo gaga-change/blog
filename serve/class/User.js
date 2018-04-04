@@ -38,14 +38,10 @@ pro.makeSalt = function () {
 }
 
 /** 加密密码并返回加密后的值 */
-pro.encryptPassword = function (password) {
+pro.encryptPassword = function (password, s) {
+    s = s || this.salt
     if (!password) return ''
-    try {
-        return crypto.createHmac('sha1', this.salt).update(password).digest('hex')
-    } catch (err) {
-        console.err(err)
-        return ''
-    }
+    return crypto.createHmac('sha1', s).update(password).digest('hex')
 }
 User.prototype = pro
 

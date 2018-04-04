@@ -10,5 +10,7 @@ router.get('/user/search',common.search, user.search) // 搜索
 router.post('/user/register', user.register) // 注册
 router.get('/user/session', user.getUser) // 获取当前登入用户
 router.get('/user/logout', user.logout) // 退出登入
+router.post('/user/login', user.login) // 登入
+
 
 module.exports = router
