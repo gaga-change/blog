@@ -24,11 +24,9 @@ exports.register = (req, res, next) => {
             if (rows.length == 0) {
                 let user = new User(req.body.username, req.body.password)
                 return DataUser.addUser(user).then(obj => {
+                    req.session.user = {id: obj.insertId, ...user}
                     res.send({
-                        data: {
-                            id: obj.insertId,
-                            ...user
-                        }
+                        data: req.session.user
                     })
                 })
             } else {
@@ -38,4 +36,19 @@ exports.register = (req, res, next) => {
     } catch (err) {
         next(err)
     }
+}
+
+/** 获取当前登入用户 */
+exports.getUser = (req, res, next) => {
+    res.send({data: req.session.user})
+}
+
+/** 退出登入 */
+exports.logout = (req, res, next) => {
+    req.session.destroy(err => {
+        if (err) next(err)
+        else {
+            res.send({})
+        }
+    })   
 }
