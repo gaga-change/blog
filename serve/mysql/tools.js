@@ -1,6 +1,7 @@
 const mysql = require('mysql')
 
 exports.order = (order) => {
+    let sql = ''
     if (order) {
         let ret = []
         order = order.split(',')
@@ -13,11 +14,10 @@ exports.order = (order) => {
             }
         })
         if (ret.length) {
-            return 'ORDER BY ' + ret.join(',')
-        } else {
-            return ''
+            sql = 'ORDER BY ' + ret.join(',')
         }
     }
+    return sql
 }
 exports.select = (select) => {
     if (select) {
