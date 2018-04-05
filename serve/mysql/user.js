@@ -1,9 +1,5 @@
 /**
  * table_user
- * 1. 增
- * 2. 删
- * 3. 改
- * 4. 查
 */
 
 const query = require('./pool')
