@@ -1,9 +1,8 @@
 const DataUser = require('../mysql/user')
 const { User, UserPro } = require('../class/User')
 const error = require('../error')
-/**
- * 搜索
- */
+
+/** 搜索 */
 exports.search = (req, res, next) => {
     DataUser.search({
         ...req.arg
@@ -15,24 +14,26 @@ exports.search = (req, res, next) => {
 }
 
 /** 注册 */
-exports.register = (req, res, next) => {
+exports.register = async (req, res, next) => {
     try {
-        UserPro.checkUsername(req.body.username)
-        DataUser.search({
+        // 必填校验
+        UserPro.check(req.body.username, req.body.password, req.body.email)
+        // 判断用户是否已存在
+        let rows = await DataUser.search({
             where: `username|${req.body.username}`,
-        }).then(rows => {
-            if (rows.length == 0) {
-                let user = new User(req.body.username, req.body.password)
-                return DataUser.addUser(user).then(obj => {
-                    req.session.user = { id: obj.insertId, ...user }
-                    res.send({
-                        data: req.session.user
-                    })
-                })
-            } else {
-                next(error.usernameAlreadyExist)
-            }
-        }).catch(err => next(err))
+        })
+        // 用户已存在退出
+        if (!rows.length == 0)
+            throw error.usernameAlreadyExist
+        // 创建用户对象
+        let user = new User(req.body.username, req.body.password, req.body.email)
+        // 数据库增加该用户
+        let obj = await DataUser.addUser(user)
+        // 转变为已登入
+        req.session.user = { id: obj.insertId, ...user }
+        res.send({
+            data: req.session.user
+        })
     } catch (err) {
         next(err)
     }
@@ -44,24 +45,22 @@ exports.getUser = (req, res, next) => {
 }
 
 /** 登入 */
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
     try {
         UserPro.checkUsername(req.body.username)
         UserPro.checkPassword(req.body.password)
-        DataUser.search({
+        let rows = await DataUser.search({
             where: `username|${req.body.username}`,
-        }).then(rows => {
-            if (rows.length) {
-                if (UserPro.encryptPassword(req.body.password, rows[0].salt) == rows[0].hashed_password) {
-                    req.session.user = rows[0]
-                    res.send({ data: rows[0] })
-                } else {
-                    next(error.loginFail)
-                }
-            } else {
-                next(error.loginFail)
-            }
-        }).catch(err => next(err))
+        })
+        if (!rows.length) // 用户名不存在
+            throw error.loginFail
+        // 密码校验
+        if (UserPro.encryptPassword(req.body.password, rows[0].salt) == rows[0].hashed_password) { // 密码正确
+            req.session.user = rows[0]
+            res.send({ data: rows[0] })
+        } else { // 密码错误
+            throw error.loginFail
+        }
     } catch (err) {
         next(err)
     }

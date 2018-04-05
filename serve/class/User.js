@@ -5,15 +5,17 @@ const error = require('../error')
  * @param {String} username 
  * @param {String} password 
  */
-function User(username, password) {
+function User(username, password, email) {
     this.check(username, password)
+
     this.username = username
+    this.email = email
     this.salt = this.makeSalt()
     this.hashed_password = this.encryptPassword(password)
 }
 let pro = {}
 /** 校验所有参数 */
-pro.check = function (username, password) {
+pro.check = function (username, password, email) {
     this.checkUsername(username)
     this.checkPassword(password)
 }
@@ -21,14 +23,21 @@ pro.check = function (username, password) {
 /** 用户名校验，非空，长度小于11 */
 pro.checkUsername = function (username) {
     if (!username || username.length > 10) {
-        throw error.usernameCheckFlase
+        throw error.usernameCheckFalse
+    }
+}
+
+pro.checkEmail = function (email) {
+    const regex = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
+    if (!regex.test(email)) {
+        throw error.emailCheckFalse
     }
 }
 
 /** 密码校验，非空，长度小于16且大于5 */
 pro.checkPassword = function (password) {
     if (!password || password.length < 6 || password.length > 15) {
-        throw error.passwordChekcFlase
+        throw error.passwordCheckFalse
     }
 }
 
