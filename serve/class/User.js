@@ -2,32 +2,47 @@ const crypto = require('crypto')
 const error = require('../error')
 /**
  * 用户类
- * @param {String} username 
- * @param {String} password 
+ * @param {obj} obj 请求参数
+ *  username 用户名
+ *  email 邮箱
+ *  password 密码
+ *  displayName 真实名
  */
-function User(username, password, email) {
-    this.check(username, password)
-
-    this.username = username
-    this.email = email
+function User(obj) {
+    if (!obj) return
+    this.username = obj.username 
+    this.email = obj.email 
     this.salt = this.makeSalt()
-    this.hashed_password = this.encryptPassword(password)
+    this.hashed_password = this.encryptPassword(obj.password)
+    this.create_time = new Date() // 创建时间
+    this.display_name =  this.notNull(obj.display_name) 
 }
-let pro = {}
-/** 校验所有参数 */
-pro.check = function (username, password, email) {
+
+/** 非空校验 */
+User.prototype.notNull = function (val) {
+    if(!val) {
+        throw error.isNull
+    } else {
+        return val
+    }
+}
+
+/** 校验所有必填参数 */
+User.prototype.check = function (username, password, email) {
     this.checkUsername(username)
     this.checkPassword(password)
+    this.checkEmail(email)
 }
 
 /** 用户名校验，非空，长度小于11 */
-pro.checkUsername = function (username) {
+User.prototype.checkUsername = function (username) {
     if (!username || username.length > 10) {
         throw error.usernameCheckFalse
     }
 }
 
-pro.checkEmail = function (email) {
+/** 邮箱校验 */
+User.prototype.checkEmail = function (email) {
     const regex = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
     if (!regex.test(email)) {
         throw error.emailCheckFalse
@@ -35,24 +50,22 @@ pro.checkEmail = function (email) {
 }
 
 /** 密码校验，非空，长度小于16且大于5 */
-pro.checkPassword = function (password) {
+User.prototype.checkPassword = function (password) {
     if (!password || password.length < 6 || password.length > 15) {
         throw error.passwordCheckFalse
     }
 }
 
 /** 创建salt */
-pro.makeSalt = function () {
+User.prototype.makeSalt = function () {
     return Math.round((new Date().valueOf() * Math.random())) + ''
 }
 
 /** 加密密码并返回加密后的值 */
-pro.encryptPassword = function (password, s) {
+User.prototype.encryptPassword = function (password, s) {
     s = s || this.salt
     if (!password) return ''
     return crypto.createHmac('sha1', s).update(password).digest('hex')
 }
-User.prototype = pro
 
-module.exports.User = User
-module.exports.UserPro = pro
+module.exports = User

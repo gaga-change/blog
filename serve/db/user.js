@@ -1,5 +1,5 @@
 const DataUser = require('../mysql/user')
-const { User, UserPro } = require('../class/User')
+const User = require('../class/User')
 const error = require('../error')
 
 /** 搜索 */
@@ -16,8 +16,9 @@ exports.search = (req, res, next) => {
 /** 注册 */
 exports.register = async (req, res, next) => {
     try {
+        let user = new User()
         // 必填校验
-        UserPro.check(req.body.username, req.body.password, req.body.email)
+        user.check(req.body.username, req.body.password, req.body.email)
         // 判断用户是否已存在
         let rows = await DataUser.search({
             where: `username|${req.body.username}`,
@@ -26,7 +27,7 @@ exports.register = async (req, res, next) => {
         if (!rows.length == 0)
             throw error.usernameAlreadyExist
         // 创建用户对象
-        let user = new User(req.body.username, req.body.password, req.body.email)
+        user = new User(req.body)
         // 数据库增加该用户
         let obj = await DataUser.addUser(user)
         // 转变为已登入
@@ -47,15 +48,16 @@ exports.getUser = (req, res, next) => {
 /** 登入 */
 exports.login = async (req, res, next) => {
     try {
-        UserPro.checkUsername(req.body.username)
-        UserPro.checkPassword(req.body.password)
+        let user = new User()
+        user.checkUsername(req.body.username)
+        user.checkPassword(req.body.password)
         let rows = await DataUser.search({
             where: `username|${req.body.username}`,
         })
         if (!rows.length) // 用户名不存在
             throw error.loginFail
         // 密码校验
-        if (UserPro.encryptPassword(req.body.password, rows[0].salt) == rows[0].hashed_password) { // 密码正确
+        if (user.encryptPassword(req.body.password, rows[0].salt) == rows[0].hashed_password) { // 密码正确
             req.session.user = rows[0]
             res.send({ data: rows[0] })
         } else { // 密码错误
