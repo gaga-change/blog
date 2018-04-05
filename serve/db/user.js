@@ -20,12 +20,10 @@ exports.register = async (req, res, next) => {
         // 必填校验
         user.check(req.body.username, req.body.password, req.body.email)
         // 判断用户是否已存在
-        let rows = await DataUser.search({
-            where: `username|${req.body.username}`,
-        })
+        let rows = await DataUser.findUserForUsernameOrEmail(req.body.username, req.body.email)
         // 用户已存在退出
         if (!rows.length == 0)
-            throw error.usernameAlreadyExist
+            throw error.usernameOrEmailAlreadyExist
         // 创建用户对象
         user = new User(req.body)
         // 数据库增加该用户
@@ -49,11 +47,10 @@ exports.getUser = (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         let user = new User()
-        user.checkUsername(req.body.username)
+        let usernameOrEmail = req.body.usernameOrEmail
+        user.checkNull(usernameOrEmail)
         user.checkPassword(req.body.password)
-        let rows = await DataUser.search({
-            where: `username|${req.body.username}`,
-        })
+        let rows = await DataUser.findUserForUsernameOrEmail(usernameOrEmail, usernameOrEmail)
         if (!rows.length) // 用户名不存在
             throw error.loginFail
         // 密码校验

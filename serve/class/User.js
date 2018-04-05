@@ -15,11 +15,11 @@ function User(obj) {
     this.salt = this.makeSalt()
     this.hashed_password = this.encryptPassword(obj.password)
     this.create_time = new Date() // 创建时间
-    this.display_name =  this.notNull(obj.display_name) 
+    this.display_name =  this.checkNull(obj.display_name) 
 }
 
 /** 非空校验 */
-User.prototype.notNull = function (val) {
+User.prototype.checkNull = function (val) {
     if(!val) {
         throw error.isNull
     } else {
