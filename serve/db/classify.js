@@ -12,8 +12,8 @@ exports.search = async (req, res, next) => {
 exports.add = async (req, res, next) => {
     try {
         let classify = new Classify(req.body)
-        await DBClassify.insert(classify)
-        res.send({})
+        let ret = await DBClassify.insert(classify)
+        res.send({ret})
     }
     catch (err) { next(err) }
 }
@@ -23,8 +23,8 @@ exports.modify = async (req, res, next) => {
     try {
         let classify = new Classify(req.body)
         classify.checkIdAndSave(req.body.id) // id 空值校验，并保存
-        await DBClassify.update(classify)
-        res.send({})
+        let ret = await DBClassify.update(classify)
+        res.send({ret})
     } catch (err) {next(err)}
 }
 

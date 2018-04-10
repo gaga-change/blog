@@ -12,8 +12,8 @@ exports.search = async (req, res, next) => {
 exports.add = async (req, res, next) => {
     try {
         let tag = new Tag(req.body)
-        await DBTag.insert(tag)
-        res.send({})
+        let ret = await DBTag.insert(tag)
+        res.send({ret})
     }
     catch (err) { next(err) }
 }
@@ -23,8 +23,8 @@ exports.modify = async (req, res, next) => {
     try {
         let tag = new Tag(req.body)
         tag.checkIdAndSave(req.body.id) // id 空值校验，并保存
-        await DBTag.update(tag)
-        res.send({})
+        let ret = await DBTag.update(tag)
+        res.send({ret})
     } catch (err) {next(err)}
 }
 
