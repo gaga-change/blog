@@ -36,3 +36,4 @@ exports.delete = async (req, res, next) => {
         res.send({ret})
     } catch(err) {next(err)}
 }
+

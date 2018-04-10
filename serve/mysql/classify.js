@@ -27,6 +27,20 @@ exports.update = (classify) => {
     return query('UPDATE classify SET ? WHERE id = ?', [classify, classify.id])
 }
 
+/** num 参数加一 
+ * @param {String} id
+*/
+exports.numAdd = (id) => {
+    return query('UPDATE classify SET num = num + 1 WHERE id = ?', [id])
+}
+
+/** num 参数减一 
+ * @param {String} id
+*/
+exports.numReduce = (id) => {
+    return query('UPDATE classify SET num = num - 1 WHERE id = ?', [id])
+}
+
 /** 搜索所有`分类` */
 exports.select = () => {
     return query('SELECT * FROM classify')
