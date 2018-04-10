@@ -4,8 +4,8 @@
 const error = require('../error')
 const common = require('./common')
 
-function Classify () {
-
+function Classify ({name}) {
+    this.name = this.checkNull(name)
 }
 
 /** 继承公共原型 */

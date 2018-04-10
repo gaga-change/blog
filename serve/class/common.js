@@ -1,3 +1,8 @@
+/**
+ * 公共类方法
+ */
+
+const error = require('../error')
 
 module.exports = {
     /** 非空校验 */

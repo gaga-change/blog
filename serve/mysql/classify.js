@@ -9,7 +9,7 @@ const mysql = require('mysql')
  * @param {Classify} classify
 */
 exports.insert = (classify) => {
-    return query('INSERT INTO classify ?', [classify])
+    return query('INSERT INTO classify SET ?', [classify])
 }
 
 /**
