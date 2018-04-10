@@ -4,6 +4,7 @@ const router = express.Router()
 
 const user = require('./db/user')
 const classify = require('./db/classify')
+const tag = require('./db/tag')
 const common = require('./db/common')
 
 router.get('*', common.init)
@@ -20,5 +21,11 @@ router.get('/classify', classify.search) // 搜索
 router.post('/classify', classify.add) // 增加
 router.put('/classify', classify.modify) // 修改
 router.delete('/classify', classify.delete) // 删除
+
+// 标签
+router.get('/tag', tag.search) // 搜索
+router.post('/tag', tag.add) // 增加
+router.put('/tag', tag.modify) // 修改
+router.delete('/tag', tag.delete) // 删除
 
 module.exports = router
