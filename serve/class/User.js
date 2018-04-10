@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const error = require('../error')
+const common = require('./common')
 /**
  * 用户类
  * @param {obj} obj 请求参数
@@ -18,14 +19,8 @@ function User(obj) {
     this.display_name =  this.checkNull(obj.display_name) 
 }
 
-/** 非空校验 */
-User.prototype.checkNull = function (val) {
-    if(!val) {
-        throw error.isNull
-    } else {
-        return val
-    }
-}
+/** 继承公共原型 */
+User.prototype = Object.create(common)
 
 /** 校验所有必填参数 */
 User.prototype.check = function (username, password, email) {
