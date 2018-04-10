@@ -17,3 +17,22 @@ exports.add = async (req, res, next) => {
     }
     catch (err) { next(err) }
 }
+
+/** 修改 `分类目录` */
+exports.modify = async (req, res, next) => {
+    try {
+        let classify = new Classify(req.body)
+        classify.checkIdAndSave(req.body.id) // id 空值校验，并保存
+        await DBClassify.update(classify)
+        res.send({})
+    } catch (err) {next(err)}
+}
+
+/** 删除 `分类目录` */
+exports.delete = async (req, res, next) => {
+    try {
+        Classify.prototype.checkNull(req.body.id) // id 空值校验
+        let ret = await DBClassify.delete(req.body.id)
+        res.send({ret})
+    } catch(err) {next(err)}
+}
