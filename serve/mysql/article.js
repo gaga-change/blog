@@ -33,7 +33,14 @@ exports.update = (article) => {
  * 搜索文章
  * @param {Object} params
  */
-exports.search = (params) => {
-    let sql = `SELECT ${tools.select(params.select)} FROM article ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
-    return query(sql, [params.start, params.length])
+exports.search = async (params) => {
+    let sql = `SELECT SQL_CALC_FOUND_ROWS ${tools.select(params.select)} FROM article ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
+    let date = Date.now()
+    let rows = await query(sql, [params.start, params.length])
+    let foundRows = await query('SELECT found_rows() as count')
+    return Promise.resolve({count: foundRows.count, rows, searchTime: Date.now() - date})
+}
+
+exports.count = () => {
+    return query ('SELECT COUNT(*) as ')
 }
