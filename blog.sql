@@ -12,17 +12,17 @@ PRIMARY KEY (`id`)
 CREATE TABLE `article` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `user_id` int(11) NULL,
-`create_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+`create_time` datetime NULL,
 `modify_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
 `markdown` longtext NULL,
 `content` longtext NULL,
 `title` varchar(40) NULL,
-`place_id` int(11) NULL,
 `private` tinyint(1) NULL DEFAULT 0 COMMENT '是否私有',
 `post_type` varchar(10) NULL COMMENT '博客类型（post revision）',
 `comment_count` int(10) NULL DEFAULT 0 COMMENT '评论数量',
 `post_parent` int(11) NULL COMMENT '父文档',
 `classify_id` int(11) NULL,
+`intro` varchar(200) NULL COMMENT '简介',
 PRIMARY KEY (`id`) 
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE `comment` (
 `comment` varchar(200) NULL,
 `article_id` int(11) NULL,
 `father_id` int(11) NULL,
-`create_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+`create_time` datetime NULL,
 `show` int(1) NULL,
 `son_num` int(10) NULL,
 PRIMARY KEY (`id`) 
