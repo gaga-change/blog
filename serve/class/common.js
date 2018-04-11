@@ -12,5 +12,13 @@ module.exports = {
         } else {
             return val
         }
+    },
+    /** 空字符串校验 */
+    checkEmpty: function (val) {
+        if (val == '') {
+            throw error.isEmpty
+        } else {
+            return val
+        }
     }
 }

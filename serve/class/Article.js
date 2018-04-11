@@ -24,19 +24,25 @@ function Article ({markdown, content, intro, title}) {
 Article.prototype = Object.create(common)
 
 /**
- * 创建一个新文章
+ * 创建新文章时的相关操作
  * @param {Object} params
  */
-Article.create = function() {
+Article.prototype.create = function() {
     this.create_time = new Date()
     this.modify_time = new Date()
+    this.checkNull(this.title)
 }
 
-/** 更新文章处理某些参数 */
-Article.modify = function ({id}) {
-    this.checkNull(id)
-    this.id = id
-    this.modify = new Date()
+/** 更新文章是的相关操作 */
+Article.prototype.modify = function ({id, title}) {
+    this.id = this.checkNull(id)
+    this.checkEmpty(this.title) // 空字符串校验
+    this.modify_time = new Date()
+    for(let key in this) {
+        if (this[key] === null || this[key] === undefined) {
+            delete this[key]
+        }
+    }
 }
 
 /**
