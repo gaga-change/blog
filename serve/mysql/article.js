@@ -37,7 +37,7 @@ exports.search = async (params) => {
     let sql = `SELECT SQL_CALC_FOUND_ROWS ${tools.select(params.select)} FROM article ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
     let date = Date.now()
     let rows = await query(sql, [params.start, params.length])
-    let foundRows = await query('SELECT found_rows() as count')
+    let foundRows = await query('SELECT found_rows() as count')[0] || {count: 0}
     return Promise.resolve({count: foundRows.count, rows, searchTime: Date.now() - date})
 }
 
