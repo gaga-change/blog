@@ -12,7 +12,7 @@ const tools = require('./tools')
  */
 exports.search = (params) => {
     let sql = `SELECT ${tools.select(params.select)} FROM user ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
-    return query(sql, [params.start || 0, params.length || 1])
+    return query(sql, [params.start, params.length])
 }
 
 /**

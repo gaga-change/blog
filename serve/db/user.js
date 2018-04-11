@@ -3,14 +3,13 @@ const User = require('../class/User')
 const error = require('../error')
 
 /** 搜索 */
-exports.search = (req, res, next) => {
-    DataUser.search({
-        ...req.arg
-    }).then(rows => {
+exports.search = async (req, res, next) => {
+    try {
+        let rows = await DataUser.search({
+            ...req.arg
+        })
         res.send({ data: rows, query: req.query })
-    }).catch(err => {
-        next(err)
-    })
+    } catch (err) { next(err) }
 }
 
 /** 注册 */
