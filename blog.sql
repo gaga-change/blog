@@ -14,15 +14,16 @@ CREATE TABLE `article` (
 `user_id` int(11) NULL,
 `create_time` datetime NULL,
 `modify_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
-`markdown` longtext NULL,
-`content` longtext NULL,
-`title` varchar(40) NULL,
-`private` tinyint(1) NULL DEFAULT 0 COMMENT '是否私有',
-`post_type` varchar(10) NULL COMMENT '博客类型（post revision）',
+`markdown` longtext NULL COMMENT '文章markdown格式',
+`content` longtext NULL COMMENT '文章主体',
+`title` text NOT NULL COMMENT '标题',
+`intro` text NULL COMMENT '简介',
+`private` tinyint(1) NULL DEFAULT 1 COMMENT '是否私有',
+`post_type` varchar(10) NULL DEFAULT 'post' COMMENT '博客类型（post revision）',
 `comment_count` int(10) NULL DEFAULT 0 COMMENT '评论数量',
 `post_parent` int(11) NULL COMMENT '父文档',
 `classify_id` int(11) NULL,
-`intro` varchar(200) NULL COMMENT '简介',
+`click_num` int(10) NULL DEFAULT 0 COMMENT '阅览次数',
 PRIMARY KEY (`id`) 
 );
 
