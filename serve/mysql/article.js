@@ -5,6 +5,7 @@
 
 const query = require('./pool')
 const mysql = require('mysql')
+const tools = require('./tools')
 
 /** 插入新 `文章` 
  * @param {Tag} article
@@ -28,7 +29,11 @@ exports.update = (article) => {
     return query('UPDATE article SET ? WHERE id = ?', [article, article.id])
 }
 
-/** 搜索所有`文章` */
-exports.select = () => {
-    return query('SELECT * FROM article')
+/**
+ * 搜索文章
+ * @param {Object} params
+ */
+exports.search = (params) => {
+    let sql = `SELECT ${tools.select(params.select)} FROM article ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
+    return query(sql, [params.start, params.length])
 }

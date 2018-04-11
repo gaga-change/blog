@@ -30,7 +30,7 @@ router.put('/tag', tag.modify) // 修改
 router.delete('/tag', tag.delete) // 删除
 
 // 文章
-router.get('/article', article.search) // 搜索
+router.get('/article', common.search, article.search) // 搜索
 router.post('/article', article.add) // 增加
 router.put('/article', article.modify) // 修改
 router.delete('/article', article.delete) // 删除
