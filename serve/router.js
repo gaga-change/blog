@@ -6,6 +6,7 @@ const user = require('./db/user')
 const classify = require('./db/classify')
 const tag = require('./db/tag')
 const article = require('./db/article')
+const place = require('./db/place')
 const common = require('./db/common')
 
 const admin = common.admin
@@ -30,10 +31,15 @@ router.post('/tag', tag.add) // 增加
 router.put('/tag', tag.modify) // 修改
 router.delete('/tag', tag.delete) // 删除
 
+// 绑定标签
+router.post('/place', admin, place.bind) // 绑定
+router.delete('/place', admin, place.remove) // 移除
+
 // 文章
 router.get('/article', common.search, article.search) // 搜索
 router.post('/article', admin, article.add) // 增加
 router.put('/article', admin, article.modify) // 修改
 router.delete('/article', admin, article.delete) // 删除
+
 
 module.exports = router
