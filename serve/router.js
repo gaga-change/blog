@@ -36,6 +36,7 @@ router.post('/place', admin, place.bind) // 绑定
 router.delete('/place', admin, place.remove) // 移除
 
 // 文章
+router.get('/article/one', article.searchOne) // 搜索指定文章
 router.get('/article', common.search, article.search) // 搜索
 router.post('/article', admin, article.add) // 增加
 router.put('/article', admin, article.modify) // 修改

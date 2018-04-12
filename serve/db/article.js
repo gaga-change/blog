@@ -12,6 +12,15 @@ exports.search = async (req, res, next) => {
     } catch (err) { next(err) }
 }
 
+/** 根据ID搜索指定文章 */
+exports.searchOne = async (req, res, next) => {
+    try {
+        Article.prototype.checkNull(req.query.id)
+        let rows = await DBArticle.searchOneById(req.query.id)
+        res.send({ data: rows[0] })
+    } catch (err) { next(err) }
+}
+
 /** 新填 `文章` */
 exports.add = async (req, res, next) => {
     try {
