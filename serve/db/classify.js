@@ -8,7 +8,7 @@ exports.search = async (req, res, next) => {
     res.send({ data: rows })
 }
 
-/** 新填 `分类目录` */
+/** 新添 `分类目录` */
 exports.add = async (req, res, next) => {
     try {
         let classify = new Classify(req.body)

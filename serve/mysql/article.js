@@ -38,18 +38,30 @@ exports.search = async (params) => {
     let date = Date.now()
     let rows = await query(sql, [params.start, params.length])
     let foundRows = await query('SELECT found_rows() as count')
-    foundRows = foundRows[0] || {count: 0}
-    return Promise.resolve({count: foundRows.count, rows, searchTime: Date.now() - date})
+    foundRows = foundRows[0] || { count: 0 }
+    return Promise.resolve({ count: foundRows.count, rows, searchTime: Date.now() - date })
 }
 
 /**
  * 搜索指定文章
  * @param {String} id 
  */
-exports.searchOneById = async(id) => {
-    return query('SELECT SQL_CALC_FOUND_ROWS * FROM article_post_public WHERE id = ?', [id])   
+exports.searchOneById = async (id) => {
+    return query('SELECT * FROM article_post_public WHERE id = ?', [id])
 }
 
-exports.count = () => {
-    return query ('SELECT COUNT(*) as ')
+/**
+ * 浏览量加1
+ * @param {*} id 
+ */
+exports.clickNumAdd = async (id) => {
+    return query('UPDATE article set click_num = click_num + 1 WHERE id = ?', [id])
+}
+
+/**
+ * 评论量加1
+ * @param {*} id 
+ */
+exports.commentNumAdd = async (id) => {
+    return query('UPDATE article set comment_num = comment_num + 1 WHERE id = ?', [id])
 }

@@ -2,14 +2,14 @@ CREATE TABLE `article` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `user_id` int(11) NULL DEFAULT NULL,
 `create_time` datetime NULL DEFAULT NULL,
-`modify_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+`modify_time` datetime NULL DEFAULT NULL,
 `markdown` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '文章markdown格式',
 `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '文章主体',
 `title` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标题',
 `intro` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '简介',
 `private` tinyint(1) NULL DEFAULT 1 COMMENT '是否私有',
 `post_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'post' COMMENT '博客类型（post revision）',
-`comment_count` int(10) NULL DEFAULT 0 COMMENT '评论数量',
+`comment_num` int(10) NULL DEFAULT 0 COMMENT '评论数量',
 `post_parent` int(11) NULL DEFAULT NULL COMMENT '父文档',
 `classify_id` int(11) NULL DEFAULT NULL,
 `click_num` int(10) NULL DEFAULT 0 COMMENT '阅览次数',
@@ -144,11 +144,22 @@ ALTER TABLE `place` ADD CONSTRAINT `place_article` FOREIGN KEY (`article_id`) RE
 ALTER TABLE `place` ADD CONSTRAINT `place_tag` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 CREATE 
-ALGORITHM=UNDEFINED
+ALGORITHM=Undefined
 DEFINER=`root`@`localhost`
-SQL SECURITY DEFINER
+SQL SECURITY Definer
 VIEW `article_post_public` AS 
-select `article`.`id` AS `id`,`article`.`user_id` AS `user_id`,`article`.`create_time` AS `create_time`,`article`.`title` AS `title`,`article`.`intro` AS `intro`,`article`.`comment_count` AS `comment_count`,`article`.`click_num` AS `click_num`,`user`.`display_name` AS `display_name` from (`article` join `user` on((`article`.`user_id` = `user`.`id`)));
+SELECT
+`article`.`id` AS `id`,
+`article`.`user_id` AS `user_id`,
+`article`.`create_time` AS `create_time`,
+`article`.`title` AS `title`,
+`article`.`intro` AS `intro`,
+`article`.`comment_num` AS `comment_num`,
+`article`.`click_num` AS `click_num`,
+`user`.`display_name` AS `display_name`,
+`article`.`markdown`,
+`article`.`content`
+from (`article` join `user` on((`article`.`user_id` = `user`.`id`)));
 
 CREATE 
 ALGORITHM=Undefined

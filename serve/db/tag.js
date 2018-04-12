@@ -8,7 +8,7 @@ exports.search = async (req, res, next) => {
     res.send({ data: rows })
 }
 
-/** 新填 `标签` */
+/** 新添 `标签` */
 exports.add = async (req, res, next) => {
     try {
         let tag = new Tag(req.body)

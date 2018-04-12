@@ -16,12 +16,14 @@ exports.search = async (req, res, next) => {
 exports.searchOne = async (req, res, next) => {
     try {
         Article.prototype.checkNull(req.query.id)
+        let date = Date.now()
+        let ret = await DBArticle.clickNumAdd(req.query.id)
         let rows = await DBArticle.searchOneById(req.query.id)
-        res.send({ data: rows[0] })
+        res.send({ data: rows[0], time: Date.now() - date })
     } catch (err) { next(err) }
 }
 
-/** 新填 `文章` */
+/** 新添 `文章` */
 exports.add = async (req, res, next) => {
     try {
         let article = new Article(req.body)

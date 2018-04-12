@@ -42,5 +42,4 @@ router.post('/article', admin, article.add) // 增加
 router.put('/article', admin, article.modify) // 修改
 router.delete('/article', admin, article.delete) // 删除
 
-
 module.exports = router
