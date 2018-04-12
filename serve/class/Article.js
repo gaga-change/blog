@@ -4,7 +4,7 @@
 const error = require('../error')
 const common = require('./common')
 
-function Article({ markdown, content, intro, title, classify_id }) {
+function Article({ markdown, content, intro, title, classify_id, private, comment_count, click_num, post_type, post_parent }) {
     this.id
     this.user_id // 用户ID
     this.create_time // 创建时间
@@ -15,12 +15,11 @@ function Article({ markdown, content, intro, title, classify_id }) {
     this.intro = intro // 简介
     this.title = title // 标题
     this.classify_id = classify_id // 分类目录ID
-
-    this.private // 是否私有(默认true)
-    this.post_type // 文章类型 （post (默认)正式版  revision 历史版本）
-    this.comment_count // 评论数 (默认0)
-    this.click_num // 阅览次数
-    this.post_parent // 父文档ID，历史版本对应的正式版
+    this.private = private // 是否私有(默认true)
+    this.post_type = post_type // 文章类型 （post (默认)正式版  revision 历史版
+    this.post_parent = post_parent // 父文档ID，历史版本对应的正式版本）
+    this.comment_count = comment_count // 评论数 (默认0)
+    this.click_num = click_num // 阅览次数
 }
 
 /** 继承公共原型 */
