@@ -8,6 +8,7 @@ function Article({ markdown, content, intro, title, classify_id }) {
     this.id
     this.user_id // 用户ID
     this.create_time // 创建时间
+    this.modify_time // 修改时间
 
     this.markdown = markdown // markdown 内容
     this.content = content // 主体内容
@@ -31,6 +32,7 @@ Article.prototype = Object.create(common)
  */
 Article.prototype.create = function (user_id) {
     this.create_time = new Date()
+    this.modify_time = new Date()
     this.user_id = user_id
     this.checkNull(this.title)
 }
@@ -39,6 +41,7 @@ Article.prototype.create = function (user_id) {
 Article.prototype.modify = function ({ id, title }) {
     this.id = this.checkNull(id)
     this.checkEmpty(this.title) // 空字符串校验
+    if (this.content) this.modify_time = new Date() // 更新时间与修改内容相关
     for (let key in this) {
         if (this[key] === null || this[key] === undefined) {
             delete this[key]
