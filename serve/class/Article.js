@@ -8,7 +8,7 @@ function Article({ markdown, content, intro, title, classify_id }) {
     this.id
     this.user_id // 用户ID
     this.create_time // 创建时间
-    
+
     this.markdown = markdown // markdown 内容
     this.content = content // 主体内容
     this.intro = intro // 简介
