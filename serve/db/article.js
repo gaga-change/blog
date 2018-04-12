@@ -16,7 +16,7 @@ exports.search = async (req, res, next) => {
 exports.add = async (req, res, next) => {
     try {
         let article = new Article(req.body)
-        article.create() // 创建处理
+        article.create(req.session.user.id) // 创建处理
         let ret = await DBArticle.insert(article)
         res.send({ ret })
     }

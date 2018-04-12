@@ -8,10 +8,11 @@ const tag = require('./db/tag')
 const article = require('./db/article')
 const common = require('./db/common')
 
+const admin = common.admin
 router.get('*', common.init)
 
 // `用户`
-router.get('/user/search',common.search, user.search) // 搜索
+router.get('/user/search', common.search, user.search) // 搜索
 router.post('/user/register', user.register) // 注册
 router.get('/user/session', user.getUser) // 获取当前登入用户
 router.get('/user/logout', user.logout) // 退出登入
@@ -31,8 +32,8 @@ router.delete('/tag', tag.delete) // 删除
 
 // 文章
 router.get('/article', common.search, article.search) // 搜索
-router.post('/article', article.add) // 增加
-router.put('/article', article.modify) // 修改
-router.delete('/article', article.delete) // 删除
+router.post('/article', admin, article.add) // 增加
+router.put('/article', admin, article.modify) // 修改
+router.delete('/article', admin, article.delete) // 删除
 
 module.exports = router
