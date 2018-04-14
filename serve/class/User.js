@@ -32,7 +32,7 @@ User.prototype.check = function (username, password, email) {
 /** 用户名校验，非空，长度小于11 */
 User.prototype.checkUsername = function (username) {
     if (!username || username.length > 10) {
-        throw error.usernameCheckFalse
+        throw error.lengthOverflow
     }
 }
 
