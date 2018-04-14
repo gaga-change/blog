@@ -29,5 +29,14 @@ module.exports = {
         } else {
             return email
         }
+    },
+    // 网址校验
+    checkUrl: function (url) {
+        const regex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+        if (!regex.test(url)) {
+            throw error.urlCheckFalse
+        } else {
+            return url
+        }
     }
 }
