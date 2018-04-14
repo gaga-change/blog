@@ -36,9 +36,10 @@ app.use((req, res, next) => {
     req.session.path = req.path 
     next()
 })
-app.use('/public', express.static(path.resolve(__dirname, './public')))
 // api 请求
 app.use('/api', router)
+// 静态资源
+app.use('/', express.static(path.resolve(__dirname, './public')))
 // 404 处理
 app.use((req, res, next) => {
     let err = new Error('Not Found')
