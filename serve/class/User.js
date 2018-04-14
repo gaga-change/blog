@@ -36,14 +36,6 @@ User.prototype.checkUsername = function (username) {
     }
 }
 
-/** 邮箱校验 */
-User.prototype.checkEmail = function (email) {
-    const regex = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
-    if (!regex.test(email)) {
-        throw error.emailCheckFalse
-    }
-}
-
 /** 密码校验，非空，长度小于16且大于5 */
 User.prototype.checkPassword = function (password) {
     if (!password || password.length < 6 || password.length > 15) {

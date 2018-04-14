@@ -20,5 +20,14 @@ module.exports = {
         } else {
             return val
         }
+    },
+    // 邮箱校验
+    checkEmail: function (email) {
+        const regex = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
+        if (!regex.test(email)) {
+            throw error.emailCheckFalse
+        } else {
+            return email
+        }
     }
 }
