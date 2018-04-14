@@ -34,7 +34,7 @@ exports.update = (article) => {
  * @param {Object} params
  */
 exports.search = async (params) => {
-    let sql = `SELECT SQL_CALC_FOUND_ROWS id,create_time,title,intro,comment_count,click_num,tags,display_name FROM article_post_public ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
+    let sql = `SELECT SQL_CALC_FOUND_ROWS id,create_time,title,intro,comment_num,click_num,tags,display_name FROM article_post_public ${tools.where(params.where)} ${tools.order(params.order)} LIMIT ?, ?`
     let date = Date.now()
     let rows = await query(sql, [params.start, params.length])
     let foundRows = await query('SELECT found_rows() as count')
