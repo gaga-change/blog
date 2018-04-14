@@ -30,9 +30,9 @@ Comment.prototype.create = function () {
 
 /** 修改对象 */
 Comment.prototype.modify = function ({id, show}) {
-    this._delNull()
+    this.id = this.checkNull(id)
     this.show = show
-    this.id = id
+    this._delNull()
 }
 
 module.exports = Comment
