@@ -39,9 +39,10 @@ User.prototype.makeSalt = function () {
 }
 
 /** 加密密码并返回加密后的值 */
-User.prototype.encryptPassword = function (val) {
+User.prototype.encryptPassword = function (val, s) {
+    s = s || this.salt // 登入校验密码时，salt由外部传入
     if (!val) return val
-    return crypto.createHmac('sha1', this.salt).update(val).digest('hex')
+    return crypto.createHmac('sha1', s).update(val).digest('hex')
 }
 
 module.exports = User

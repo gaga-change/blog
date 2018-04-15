@@ -42,15 +42,13 @@ exports.getUser = (req, res, next) => {
 /** 登入 */
 exports.login = async (req, res, next) => {
     try {
-        let user = new User()
         let usernameOrEmail = req.body.usernameOrEmail
-        user.checkNull(usernameOrEmail)
-        user.checkPassword(req.body.password)
+        User.prototype.checkNull(usernameOrEmail, req.body.password)
         let rows = await DataUser.findUserForUsernameOrEmail(usernameOrEmail, usernameOrEmail)
         if (!rows.length) // 用户名不存在
             throw error.loginFail
         // 密码校验
-        if (user.encryptPassword(req.body.password, rows[0].salt) == rows[0].hashed_password) { // 密码正确
+        if (User.prototype.encryptPassword(req.body.password, rows[0].salt) == rows[0].hashed_password) { // 密码正确
             req.session.user = rows[0]
             res.send({ data: rows[0] })
         } else { // 密码错误
