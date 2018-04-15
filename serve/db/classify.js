@@ -22,7 +22,7 @@ exports.add = async (req, res, next) => {
 exports.modify = async (req, res, next) => {
     try {
         let classify = new Classify(req.body)
-        classify.checkIdAndSave(req.body.id) // id 空值校验，并保存
+        classify.modify(req.body)
         let ret = await DBClassify.update(classify)
         res.send({ret})
     } catch (err) {next(err)}

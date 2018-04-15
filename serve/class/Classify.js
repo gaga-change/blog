@@ -4,21 +4,18 @@
 const error = require('../error')
 const common = require('./common')
 
-function Classify ({name}) {
+function Classify({ name }) {
     this.id
-    this.name = this.checkNull(name)
+    this.name = this.checkLength(name, 10)
+    this.checkNull(name)
 }
 
 /** 继承公共原型 */
 Classify.prototype = Object.create(common)
 
-/**
- * 校验ID是否正常且保存
- * @param {String} id 
- */
-Classify.prototype.checkIdAndSave = function(id) {
-    this.checkNull(id)
+Classify.prototype.modify = function ({id}) {
     this.id = id
+    this.checkNull(id)
 }
 
 module.exports = Classify
