@@ -15,16 +15,13 @@ exports.search = async (req, res, next) => {
 /** 注册 */
 exports.register = async (req, res, next) => {
     try {
-        let user = new User()
-        // 必填校验
-        user.check(req.body.username, req.body.password, req.body.email)
+        let user = new User(req.body)
+        user.create()
         // 判断用户是否已存在
-        let rows = await DataUser.findUserForUsernameOrEmail(req.body.username, req.body.email)
+        let rows = await DataUser.findUserForUsernameOrEmail(user.username, user.email)
         // 用户已存在退出
         if (!rows.length == 0)
             throw error.usernameOrEmailAlreadyExist
-        // 创建用户对象
-        user = new User(req.body)
         // 数据库增加该用户
         let obj = await DataUser.addUser(user)
         // 转变为已登入

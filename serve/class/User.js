@@ -9,38 +9,28 @@ const common = require('./common')
  *  password 密码
  *  displayName 真实名
  */
-function User(obj) {
-    if (!obj) return
-    this.username = obj.username 
-    this.email = obj.email 
-    this.salt = this.makeSalt()
-    this.hashed_password = this.encryptPassword(obj.password)
-    this.create_time = new Date() // 创建时间
-    this.display_name =  this.checkNull(obj.display_name) 
+function User({username, email, password, display_name}) {
+    this._password = this.checkLength(password, 15, 6)
+    this.username = this.checkLength(username, 10) // 用户名，登入用
+    this.email = this.checkEmail(email) // 邮箱
+    this.salt = this.makeSalt() // salt
+    this.hashed_password = this.encryptPassword(this._password) // 根据salt加密后的密码
+    this.display_name =  this.checkLength(display_name, 10) // 用户名，展示用
+    this.create_time // 创建时间
 }
 
 /** 继承公共原型 */
 User.prototype = Object.create(common)
 
-/** 校验所有必填参数 */
-User.prototype.check = function (username, password, email) {
-    this.checkUsername(username)
-    this.checkPassword(password)
-    this.checkEmail(email)
+User.prototype.create = function () {
+    this.checkNull(this.username, this.email, this._password, this.display_name) // 必填校验
+    delete this._password // 不存储真实密码
+    // 默认值
+    this.create_time = new Date()
 }
 
-/** 用户名校验，非空，长度小于11 */
-User.prototype.checkUsername = function (username) {
-    if (!username || username.length > 10) {
-        throw error.lengthOverflow
-    }
-}
+User.prototype.modify = function() {
 
-/** 密码校验，非空，长度小于16且大于5 */
-User.prototype.checkPassword = function (password) {
-    if (!password || password.length < 6 || password.length > 15) {
-        throw error.passwordCheckFalse
-    }
 }
 
 /** 创建salt */
@@ -49,10 +39,9 @@ User.prototype.makeSalt = function () {
 }
 
 /** 加密密码并返回加密后的值 */
-User.prototype.encryptPassword = function (password, s) {
-    s = s || this.salt
-    if (!password) return ''
-    return crypto.createHmac('sha1', s).update(password).digest('hex')
+User.prototype.encryptPassword = function (val) {
+    if (!val) return val
+    return crypto.createHmac('sha1', this.salt).update(val).digest('hex')
 }
 
 module.exports = User
