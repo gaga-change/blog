@@ -26,8 +26,8 @@ exports.searchOne = async (req, res, next) => {
 /** 新添 `文章` */
 exports.add = async (req, res, next) => {
     try {
-        let article = new Article(req.body)
-        article.create(req.session.user.id) // 创建处理
+        let article = new Article({user_id: req.session.user.id,...req.body})
+        article.create() // 创建处理
         let ret = await DBArticle.insert(article)
         res.send({ ret })
     }
