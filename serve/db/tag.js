@@ -22,7 +22,7 @@ exports.add = async (req, res, next) => {
 exports.modify = async (req, res, next) => {
     try {
         let tag = new Tag(req.body)
-        tag.checkIdAndSave(req.body.id) // id 空值校验，并保存
+        tag.modify(req.body)
         let ret = await DBTag.update(tag)
         res.send({ret})
     } catch (err) {next(err)}
