@@ -23,16 +23,19 @@ Comment.prototype = Object.create(common)
 
 /** 创建新对象 */
 Comment.prototype.create = function () {
-    this.checkNull(this.article_id, this.username, this.email, this.comment)
+    this.checkNull(this.article_id, this.username, this.email, this.comment) // 必填校验
+    // 默认值设定
     this.create_time = new Date()
     this.son_num = 0
+    this.show = true
 }
 
 /** 修改对象 */
 Comment.prototype.modify = function ({id, show}) {
+    this.checkEmpty(this.article_id, this.username, this.email, this.comment) // 空字符串校验
     this.id = this.checkNull(id)
     this.show = show
-    this._delNull()
+    this.delNull()
 }
 
 module.exports = Comment

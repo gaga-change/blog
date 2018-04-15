@@ -10,21 +10,11 @@ module.exports = {
     /** 是否为 null 或 undefined 或 空字符串 */
     _isEmpty: val => !val,
     /** 删除 null 或 undefined 属性 */
-    _delNull: function () {
+    delNull: function () {
         for (let key in this) {
             if (this._isNull(this[key])) {
                 delete this[key]
             }
-        }
-    },
-    /** 长度校验 */
-    checkLength: function (val, maxLength, minLength) {
-        if (this._isEmpty(val)) return val
-        minLength = minLength || 1
-        if (val.length > maxLength || val.length < minLength) {
-            throw error.lengthOverflow
-        } else {
-            return val
         }
     },
     /** 非空校验 */
@@ -40,13 +30,26 @@ module.exports = {
     },
     /** 空字符串校验 */
     checkEmpty: function (val) {
-        if (val == '') {
-            throw error.isEmpty
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i] === '') {
+                throw error.isNull
+            } else {
+                if (i == arguments.length - 1)
+                    return val
+            }
+        }
+    },
+    /** 长度校验 */
+    checkLength: function (val, maxLength, minLength) {
+        if (this._isEmpty(val)) return val
+        minLength = minLength || 1
+        if (val.length > maxLength || val.length < minLength) {
+            throw error.lengthOverflow
         } else {
             return val
         }
     },
-    // 邮箱校验
+    /** 邮箱校验 */
     checkEmail: function (val) {
         if (this._isEmpty(val)) return val
         const regex = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
@@ -56,7 +59,7 @@ module.exports = {
             return val
         }
     },
-    // 网址校验
+    /** 网址校验 */
     checkUrl: function (val) {
         if (this._isEmpty(val)) return val
         const regex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
