@@ -14,8 +14,7 @@ function Classify({ name }) {
 Classify.prototype = Object.create(common)
 
 Classify.prototype.modify = function ({id}) {
-    this.id = id
-    this.checkNull(id)
+    this.id = this.checkNull(id)
 }
 
 module.exports = Classify
